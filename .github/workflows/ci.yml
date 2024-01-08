@@ -1,0 +1,34 @@
+name: Android Build & Test
+
+on:
+  pull_request:
+    branches: ["release"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Android SDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Android app
+        run: ./gradlew assembleDebug
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Android SDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Android tests
+        run: ./gradlew test
