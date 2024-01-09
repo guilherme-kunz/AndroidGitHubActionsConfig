@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Java 17
+      - name: Setup Java 17 for all steps
         uses: actions/setup-java@v3
         with:
           java-version: 17
@@ -36,3 +36,12 @@ jobs:
 
       - name: Run Android tests
         run: ./gradlew test
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: <span class="math-inline">\{\{ runner\.os \}\}\-gradle\-</span>{{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
