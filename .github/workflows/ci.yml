@@ -27,6 +27,14 @@ jobs:
           key: <span class="math-inline">\{\{ runner\.os \}\}\-gradle\-wrapper\-</span>{{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-wrapper-
+            
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: <span class="math-inline">\{\{ runner\.os \}\}\-gradle\-</span>{{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
   test:
     runs-on: ubuntu-latest
@@ -36,12 +44,3 @@ jobs:
 
       - name: Run Android tests
         run: ./gradlew test
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: <span class="math-inline">\{\{ runner\.os \}\}\-gradle\-</span>{{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
