@@ -2,22 +2,48 @@ name: Android Build & Test
 
 on:
   pull_request:
-    branches: ["release"]
+    branches: ["develop"]
 
 jobs:
-  build:
+  build_debug:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Android SDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 17
 
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Android app
+      - name: Build Android debug app
         run: ./gradlew assembleDebug
+
+      - name: Archive debug artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-debug
+          path: app/build/outputs/
+
+  build_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Android SDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Android release app
+        run: ./gradlew assembleRelease
+
+      - name: Archive release artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: app/build/outputs/
 
   test:
     runs-on: ubuntu-latest
@@ -25,7 +51,7 @@ jobs:
       - name: Setup Android SDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 17
 
       - name: Checkout code
         uses: actions/checkout@v2
