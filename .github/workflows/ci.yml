@@ -11,7 +11,7 @@ jobs:
       - name: Setup Android SDK
         uses: actions/setup-java@v1
         with:
-          java-version: 17  # Alterado para Java 17
+          java-version: 17
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,13 +19,19 @@ jobs:
       - name: Build Android app
         run: ./gradlew assembleDebug
 
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-debug
+          path: app/build/outputs/
+
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Android SDK
         uses: actions/setup-java@v1
         with:
-          java-version: 17  # Alterado para Java 17
+          java-version: 17
 
       - name: Checkout code
         uses: actions/checkout@v2
